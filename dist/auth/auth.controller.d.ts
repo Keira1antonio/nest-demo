@@ -1,11 +1,20 @@
 import { AuthService } from './auth.service';
-import { LogInUserDto } from '@/dtos/LoginUserDto';
+import { CreateUserDto } from '@/dtos/CreateUserDto';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
     getAuth(): Promise<string>;
-    signin(loginUserDto: LogInUserDto): Promise<{
-        status: number;
-        message: string;
+    signUp(signUpDto: CreateUserDto & {
+        confirmPassword: string;
+    }): Promise<{
+        id: string;
+        email: string;
+        name: string;
+        address: string;
+        phone: number;
+        country: string;
+        city: string;
+        orders: import("../orders/Order.entity").Order[];
+        length: number;
     }>;
 }

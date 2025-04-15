@@ -12,10 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const users_repository_1 = require("../users/users.repository");
+const usersDb_service_1 = require("../users/usersDb.service");
+const bcrypt = require("bcrypt");
 let AuthService = class AuthService {
     usersRepository;
-    constructor(usersRepository) {
+    usersDbService;
+    constructor(usersRepository, usersDbService) {
         this.usersRepository = usersRepository;
+        this.usersDbService = usersDbService;
     }
     getAuth() {
         return `Get Auth`;
@@ -31,10 +35,26 @@ let AuthService = class AuthService {
         }
         return { status: 200, message: 'Login successful' };
     }
+    async singUp(user) {
+        const userExists = await this.usersDbService.getUserByEmail(user.email);
+        if (userExists) {
+            throw new common_1.BadRequestException('User already exists');
+        }
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        if (!hashedPassword) {
+            throw new common_1.BadRequestException('Error hashing password');
+        }
+        const userEntity = this.usersDbService.createUser({
+            ...user,
+            password: hashedPassword,
+        });
+        return await this.usersDbService.saveUser(userEntity);
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [users_repository_1.UsersRepository])
+    __metadata("design:paramtypes", [users_repository_1.UsersRepository,
+        usersDb_service_1.UsersDbService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

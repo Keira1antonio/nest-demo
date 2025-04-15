@@ -19,6 +19,8 @@ const typeorm_2 = require("typeorm");
 const user_entity_1 = require("./user.entity");
 let UsersRepository = class UsersRepository {
     userRepository;
+    save;
+    create;
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
@@ -57,7 +59,8 @@ let UsersRepository = class UsersRepository {
         return await this.userRepository.findOneBy({ name });
     }
     async findByEmail(email) {
-        return await this.userRepository.findOneBy({ email });
+        const user = await this.userRepository.findOneBy({ email });
+        return user || null;
     }
     async updateUser(id, userData) {
         const user = await this.userRepository.findOneBy({ id });

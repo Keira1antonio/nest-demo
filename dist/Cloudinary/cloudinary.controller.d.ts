@@ -1,5 +1,5 @@
 import { CloudinaryService } from './cloudinary.service';
-import { ProductsService } from '@/ products/products.service';
+import { ProductsService } from '@/products/products.service';
 export declare class CloudinaryController {
     private readonly cloudinaryService;
     private readonly productsService;
@@ -12,6 +12,6 @@ export declare class CloudinaryController {
     uploadProductImage(id: string, file: Express.Multer.File): Promise<{
         status: string;
         message: string;
-        data: import("../ products/products.entity").Product;
+        data: import("../products/products.entity").Product;
     }>;
 }

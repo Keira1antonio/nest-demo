@@ -14,7 +14,7 @@ const Order_Service_1 = require("./Order.Service");
 const Order_Repository_1 = require("./Order.Repository");
 const Order_entity_1 = require("./Order.entity");
 const OrderDetail_entity_1 = require("../entitys/OrderDetail.entity");
-const products_entity_1 = require("../ products/products.entity");
+const products_entity_1 = require("../products/products.entity");
 const user_entity_1 = require("../users/user.entity");
 let OrderModule = class OrderModule {
 };

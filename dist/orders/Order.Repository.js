@@ -18,7 +18,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const Order_entity_1 = require("./Order.entity");
 const OrderDetail_entity_1 = require("../entitys/OrderDetail.entity");
-const products_entity_1 = require("../ products/products.entity");
+const products_entity_1 = require("../products/products.entity");
 const user_entity_1 = require("../users/user.entity");
 let OrderRepository = class OrderRepository {
     orderRepo;

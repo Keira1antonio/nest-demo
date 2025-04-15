@@ -8,7 +8,7 @@ import { Repository, In, MoreThan, FindOptionsWhere } from 'typeorm';
 
 import { Order } from './Order.entity';
 import { OrderDetail } from '../entitys/OrderDetail.entity';
-import { Product } from '../ products/products.entity';
+import { Product } from '../products/products.entity';
 import { User } from '../users/user.entity';
 
 @Injectable()

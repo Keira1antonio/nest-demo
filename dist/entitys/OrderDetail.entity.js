@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderDetail = void 0;
 const typeorm_1 = require("typeorm");
 const Order_entity_1 = require("../orders/Order.entity");
-const products_entity_1 = require("../ products/products.entity");
+const products_entity_1 = require("../products/products.entity");
 let OrderDetail = class OrderDetail {
     id;
     price;

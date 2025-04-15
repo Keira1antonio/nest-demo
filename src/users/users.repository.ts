@@ -5,6 +5,8 @@ import { User } from './user.entity';
 
 @Injectable()
 export class UsersRepository {
+  save: any;
+  create: any;
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -50,8 +52,9 @@ export class UsersRepository {
     return await this.userRepository.findOneBy({ name });
   }
 
-  async findByEmail(email: string) {
-    return await this.userRepository.findOneBy({ email });
+  async findByEmail(email: string): Promise<User | null> {
+    const user = await this.userRepository.findOneBy({ email });
+    return user || null;
   }
 
   async updateUser(id: string, userData: Partial<User>) {

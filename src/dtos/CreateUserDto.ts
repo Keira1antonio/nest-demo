@@ -6,6 +6,7 @@ import {
   MaxLength,
   Matches,
   IsNumber,
+  IsNumberString,
 } from 'class-validator';
 
 export class CreateUserDto {

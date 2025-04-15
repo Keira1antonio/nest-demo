@@ -1,10 +1,12 @@
 import { UsersService } from './users.service';
 import { CreateUserDto } from '@/dtos/CreateUserDto';
 import { User } from './user.entity';
+import { AuthService } from '@/auth/auth.service';
 export declare class UsersController {
     private readonly usersService;
     private readonly userDbService;
-    constructor(usersService: UsersService, userDbService: UsersService);
+    private readonly authService;
+    constructor(usersService: UsersService, userDbService: UsersService, authService: AuthService);
     getUsers(name?: string, page?: number, limit?: number): Promise<User | {
         status: number;
         data: User[];
@@ -31,9 +33,8 @@ export declare class UsersController {
             length: number;
         };
     }>;
-    createUser(createUserDto: CreateUserDto): Promise<{
-        status: number;
-        id: string;
+    createUser(createUserDto: CreateUserDto): Promise<User | {
+        message: string;
     }>;
     updateUser(id: string, userData: Partial<User>): Promise<{
         status: number;

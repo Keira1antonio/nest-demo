@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const users_repository_1 = require("./users.repository");
+const bcrypt = require("bcrypt");
 let UsersService = class UsersService {
     usersRepository;
     constructor(usersRepository) {
@@ -20,8 +21,20 @@ let UsersService = class UsersService {
     getUsers(page, limit) {
         return this.usersRepository.getUsers(page, limit);
     }
-    async createUser(userData) {
-        return await this.usersRepository.createUser(userData);
+    async createUser(createUserDto) {
+        const existingUser = await this.usersRepository.findByEmail(createUserDto.email);
+        if (existingUser !== null) {
+            throw new Error('User already exists');
+        }
+        const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+        const newUser = this.usersRepository.createUser({
+            ...createUserDto,
+            password: hashedPassword,
+        });
+        return await this.usersRepository.save(newUser);
+    }
+    findByEmail(email) {
+        throw new Error('Method not implemented.');
     }
     async getUserById(id) {
         return await this.usersRepository.getUserById(id);

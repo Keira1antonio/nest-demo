@@ -17,12 +17,15 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const CreateUserDto_1 = require("../dtos/CreateUserDto");
 const auth_guard_1 = require("../guards/auth.guard");
+const auth_service_1 = require("../auth/auth.service");
 let UsersController = class UsersController {
     usersService;
     userDbService;
-    constructor(usersService, userDbService) {
+    authService;
+    constructor(usersService, userDbService, authService) {
         this.usersService = usersService;
         this.userDbService = userDbService;
+        this.authService = authService;
     }
     async getUsers(name, page = 1, limit = 5) {
         try {
@@ -48,11 +51,14 @@ let UsersController = class UsersController {
     }
     async createUser(createUserDto) {
         try {
-            return await this.usersService.createUser(createUserDto);
+            return await this.authService.singUp(createUserDto);
+            return { message: 'User created successfully' };
         }
         catch (error) {
-            throw new common_1.BadRequestException('Error creating user');
+            if (error.message.includes('User already exists'))
+                throw new common_1.BadRequestException('User already exists');
         }
+        throw new common_1.BadRequestException('Error creating user');
     }
     async updateUser(id, userData) {
         try {
@@ -97,7 +103,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "getUserById", null);
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('signup'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [CreateUserDto_1.CreateUserDto]),
@@ -123,6 +129,7 @@ __decorate([
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService,
-        users_service_1.UsersService])
+        users_service_1.UsersService,
+        auth_service_1.AuthService])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map

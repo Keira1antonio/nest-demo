@@ -4,6 +4,7 @@ import {
   Post,
   Put,
   Delete,
+  Req,
   Param,
   Query,
   Body,
@@ -14,7 +15,7 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
-
+import { DateAdderInterceptor } from '@/interceptors/date-adder.interceptor';
 import { UsersService } from './users.service';
 import { CreateUserDto } from '@/dtos/CreateUserDto';
 import { AuthGuard } from '@/guards/auth.guard';
@@ -22,12 +23,16 @@ import { User } from './user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 //import { CloudinaryService } from '../Cloudinary/cloudinary.service';
 import { memoryStorage } from 'multer';
+import { AuthService } from '@/auth/auth.service';
+import { request } from 'http';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly userDbService: UsersService,
+    private readonly authService: AuthService,
+
     //private readonly cloudinaryService: CloudinaryService,
   ) {}
 
@@ -59,35 +64,18 @@ export class UsersController {
       throw new BadRequestException('Error getting user');
     }
   }
-
-  @Post()
+  @Post('signup')
   async createUser(@Body() createUserDto: CreateUserDto) {
     try {
-      return await this.usersService.createUser(createUserDto);
+      return await this.authService.singUp(createUserDto);
+
+      return { message: 'User created successfully' };
     } catch (error) {
-      throw new BadRequestException('Error creating user');
+      if (error.message.includes('User already exists'))
+        throw new BadRequestException('User already exists');
     }
+    throw new BadRequestException('Error creating user');
   }
-
-  /* @Post('upload')
-  @UseInterceptors(FileInterceptor('file', { storage: memoryStorage() }))
-  async uploadImage(@UploadedFile() file: Express.Multer.File) {
-    try {
-      if (!file) {
-        throw new BadRequestException('No se proporcionó ningún archivo');
-      }
-
-      const result = await this.cloudinaryService.uploadFile(file);
-      return {
-        status: 'success',
-        message: 'Archivo subido exitosamente',
-        data: result,
-      };
-    } catch (error) {
-      console.error('Error al subir el archivo:', error.message);
-      throw new BadRequestException('No se pudo subir el archivo');
-    }
-  }*/
 
   @Put(':id')
   @UseGuards(AuthGuard)

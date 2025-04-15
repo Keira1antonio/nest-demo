@@ -22,8 +22,21 @@ let UsersDbService = class UsersDbService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
+    getUserByEmail(email) {
+        return this.usersRepository.findOne({ where: { email } });
+    }
+    createUser(userData) {
+        return this.usersRepository.create(userData);
+    }
     async saveUser(user) {
         return await this.usersRepository.save(user);
+    }
+    async getUsers(page = 1, limit = 5) {
+        const [users, total] = await this.usersRepository.findAndCount({
+            skip: (page - 1) * limit,
+            take: limit,
+        });
+        return { status: 200, data: users, total };
     }
 };
 exports.UsersDbService = UsersDbService;

@@ -2,6 +2,8 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 export declare class UsersRepository {
     private readonly userRepository;
+    save: any;
+    create: any;
     constructor(userRepository: Repository<User>);
     getUsers(page?: number, limit?: number): Promise<{
         status: number;

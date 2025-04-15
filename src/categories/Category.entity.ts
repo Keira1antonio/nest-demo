@@ -5,7 +5,7 @@ import {
   OneToMany,
   ManyToOne,
 } from 'typeorm';
-import { Product } from '../ products/products.entity';
+import { Product } from '../products/products.entity';
 
 @Entity({ name: 'categories' })
 export class Category {

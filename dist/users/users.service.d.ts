@@ -1,5 +1,6 @@
 import { UsersRepository } from './users.repository';
 import { User } from './user.entity';
+import { CreateUserDto } from '@/dtos/CreateUserDto';
 export declare class UsersService {
     private usersRepository;
     constructor(usersRepository: UsersRepository);
@@ -8,10 +9,8 @@ export declare class UsersService {
         data: User[];
         total: number;
     }>;
-    createUser(userData: Partial<User>): Promise<{
-        status: number;
-        id: string;
-    }>;
+    createUser(createUserDto: CreateUserDto): Promise<User>;
+    findByEmail(email: string): void;
     getUserById(id: string): Promise<{
         status: number;
         data?: undefined;

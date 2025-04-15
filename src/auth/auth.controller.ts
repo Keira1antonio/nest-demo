@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LogInUserDto } from '@/dtos/LoginUserDto';
+import { CreateUserDto } from '@/dtos/CreateUserDto';
 
 @Controller('auth')
 export class AuthController {
@@ -26,12 +27,17 @@ export class AuthController {
     }
   }
 
-  @Post('signin')
+  @Post('signup')
   @HttpCode(HttpStatus.OK)
-  async signin(@Body() loginUserDto: LogInUserDto) {
+  async signUp(@Body() signUpDto: CreateUserDto & { confirmPassword: string }) {
     try {
-      return await this.authService.signin(loginUserDto);
+      const user = await this.authService.singUp(signUpDto);
+      const { password, ...userWithoutPassword } = user;
+      return userWithoutPassword;
     } catch (error) {
+      if (error.message.includes('User already exists')) {
+        throw new BadRequestException('User already exists');
+      }
       throw new BadRequestException('Error signing in');
     }
   }

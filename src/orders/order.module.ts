@@ -6,7 +6,7 @@ import { OrderRepository } from './Order.Repository';
 
 import { Order } from './Order.entity';
 import { OrderDetail } from '../entitys/OrderDetail.entity';
-import { Product } from ' products/products.entity';
+import { Product } from '@/products/products.entity';
 import { User } from '../users/user.entity';
 
 @Module({

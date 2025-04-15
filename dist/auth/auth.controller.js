@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
-const LoginUserDto_1 = require("../dtos/LoginUserDto");
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
@@ -32,11 +31,16 @@ let AuthController = class AuthController {
             throw new common_1.BadRequestException('Error fetching auth data');
         }
     }
-    async signin(loginUserDto) {
+    async signUp(signUpDto) {
         try {
-            return await this.authService.signin(loginUserDto);
+            const user = await this.authService.singUp(signUpDto);
+            const { password, ...userWithoutPassword } = user;
+            return userWithoutPassword;
         }
         catch (error) {
+            if (error.message.includes('User already exists')) {
+                throw new common_1.BadRequestException('User already exists');
+            }
             throw new common_1.BadRequestException('Error signing in');
         }
     }
@@ -49,13 +53,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getAuth", null);
 __decorate([
-    (0, common_1.Post)('signin'),
+    (0, common_1.Post)('signup'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [LoginUserDto_1.LogInUserDto]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], AuthController.prototype, "signin", null);
+], AuthController.prototype, "signUp", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

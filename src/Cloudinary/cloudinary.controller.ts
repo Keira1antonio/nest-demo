@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from './cloudinary.service';
-import { ProductsService } from '@/ products/products.service';
+import { ProductsService } from '@/products/products.service';
 import { memoryStorage } from 'multer';
 import { MinSizeValidator } from '@/pipe/MinSizeValidator.pipe';
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/Users .module';
-import { ProductsModule } from './ products/Products.module';
+import { UsersModule } from './users/Users.module';
+import { ProductsModule } from './products/Products.module';
 import { CategoryModule } from './categories/category.module';
 import { AuthModule } from './auth/Auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';

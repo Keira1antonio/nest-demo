@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { Order } from './Order.entity';
 import { OrderDetail } from '../entitys/OrderDetail.entity';
-import { Product } from '../ products/products.entity';
+import { Product } from '../products/products.entity';
 import { User } from '../users/user.entity';
 export declare class OrderRepository {
     private readonly orderRepo;

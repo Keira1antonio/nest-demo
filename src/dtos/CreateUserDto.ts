@@ -25,9 +25,9 @@ export class CreateUserDto {
   @IsString()
   @MinLength(8)
   @MaxLength(15)
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).*$/, {
+  /*@Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).*$/, {
     message: 'Password too weak',
-  })
+  })*/
   password: string;
 
   @IsNotEmpty()
@@ -50,4 +50,6 @@ export class CreateUserDto {
   @MinLength(5)
   @MaxLength(20)
   city: string;
+
+  createdAt: string;
 }

@@ -11,12 +11,12 @@ const common_1 = require("@nestjs/common");
 const Users_module_1 = require("./users/Users.module");
 const Products_module_1 = require("./products/Products.module");
 const category_module_1 = require("./categories/category.module");
-const Auth_module_1 = require("./auth/Auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 const order_module_1 = require("./orders/order.module");
 const Cloudinary_module_1 = require("./Cloudinary/Cloudinary.module");
 const typeorm_2 = require("./config/typeorm");
+const jwt_1 = require("@nestjs/jwt");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -31,9 +31,13 @@ exports.AppModule = AppModule = __decorate([
                     return typeOrmConfig || {};
                 },
             }),
+            jwt_1.JwtModule.register({
+                global: true,
+                signOptions: { expiresIn: '2d' },
+                secret: process.env.JWT_SECRET || 'secret',
+            }),
             Users_module_1.UsersModule,
             Products_module_1.ProductsModule,
-            Auth_module_1.AuthModule,
             category_module_1.CategoryModule,
             order_module_1.OrderModule,
             Cloudinary_module_1.CloudinaryModule,

@@ -19,6 +19,7 @@ class CreateUserDto {
     phone;
     country;
     city;
+    createdAt;
 }
 exports.CreateUserDto = CreateUserDto;
 __decorate([
@@ -39,9 +40,6 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(8),
     (0, class_validator_1.MaxLength)(15),
-    (0, class_validator_1.Matches)(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).*$/, {
-        message: 'Password too weak',
-    }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
 __decorate([

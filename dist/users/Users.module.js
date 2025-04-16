@@ -9,22 +9,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const Auth_module_1 = require("../auth/Auth.module");
-const users_service_1 = require("./users.service");
-const users_controller_1 = require("./users.controller");
-const users_repository_1 = require("./users.repository");
 const user_entity_1 = require("./user.entity");
+const users_service_1 = require("./users.service");
 const usersDb_service_1 = require("./usersDb.service");
-const auth_service_1 = require("../auth/auth.service");
+const users_repository_1 = require("./users.repository");
+const users_controller_1 = require("./users.controller");
+const auth_service_1 = require("./auth.service");
 let UsersModule = class UsersModule {
-    configure(consumer) {
-    }
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]), (0, common_1.forwardRef)(() => Auth_module_1.AuthModule)],
-        providers: [users_service_1.UsersService, usersDb_service_1.UsersDbService, users_repository_1.UsersRepository, auth_service_1.AuthService],
+        imports: [typeorm_1.TypeOrmModule.forFeature([user_entity_1.User])],
+        providers: [users_service_1.UsersService, usersDb_service_1.UsersDbService, auth_service_1.AuthService, users_repository_1.UsersRepository],
         controllers: [users_controller_1.UsersController],
         exports: [users_service_1.UsersService, usersDb_service_1.UsersDbService, typeorm_1.TypeOrmModule, users_repository_1.UsersRepository],
     })

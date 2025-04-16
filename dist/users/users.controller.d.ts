@@ -1,7 +1,8 @@
 import { UsersService } from './users.service';
 import { CreateUserDto } from '@/dtos/CreateUserDto';
+import { UserCredentialsDto } from '@/dtos/userCredentials.dto';
+import { AuthService } from './auth.service';
 import { User } from './user.entity';
-import { AuthService } from '@/auth/auth.service';
 export declare class UsersController {
     private readonly usersService;
     private readonly userDbService;
@@ -12,7 +13,9 @@ export declare class UsersController {
         data: User[];
         total: number;
     } | null>;
-    getUserById(id: string): Promise<{
+    getUserById(id: string, request: Request & {
+        user: any;
+    }): Promise<{
         status: number;
         data?: undefined;
     } | {
@@ -33,8 +36,12 @@ export declare class UsersController {
             length: number;
         };
     }>;
-    createUser(createUserDto: CreateUserDto): Promise<User | {
-        message: string;
+    createUser(user: CreateUserDto, request: Request & {
+        now: string;
+    }): Promise<User>;
+    singIn(user: UserCredentialsDto): Promise<{
+        success: string;
+        token: string;
     }>;
     updateUser(id: string, userData: Partial<User>): Promise<{
         status: number;

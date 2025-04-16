@@ -18,13 +18,14 @@ import {
 import { DateAdderInterceptor } from '@/interceptors/date-adder.interceptor';
 import { UsersService } from './users.service';
 import { CreateUserDto } from '@/dtos/CreateUserDto';
-import { AuthGuard } from '@/guards/auth.guard';
+import { UserCredentialsDto } from '@/dtos/userCredentials.dto';
+import { AuthService } from './auth.service';
 import { User } from './user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 //import { CloudinaryService } from '../Cloudinary/cloudinary.service';
 import { memoryStorage } from 'multer';
-import { AuthService } from '@/auth/auth.service';
-import { request } from 'http';
+
+import { AuthGuard } from '@/guards/auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -55,26 +56,43 @@ export class UsersController {
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  async getUserById(@Param('id', ParseUUIDPipe) id: string) {
+  async getUserById(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Req() request: Request & { user: any },
+  ) {
     try {
       const user = await this.usersService.getUserById(id);
       if (!user) throw new NotFoundException('User not found');
       return user;
+      console.log(request.user);
     } catch (error) {
       throw new BadRequestException('Error getting user');
     }
   }
-  @Post('signup')
-  async createUser(@Body() createUserDto: CreateUserDto) {
-    try {
-      return await this.authService.singUp(createUserDto);
 
-      return { message: 'User created successfully' };
+  @Post('singup')
+  @UseInterceptors(DateAdderInterceptor)
+  async createUser(
+    @Body() user: CreateUserDto,
+    @Req() request: Request & { now: string },
+  ) {
+    try {
+      return await this.authService.singUp({
+        ...user,
+        createdAt: request.now,
+      } as any);
     } catch (error) {
-      if (error.message.includes('User already exists'))
-        throw new BadRequestException('User already exists');
+      throw new BadRequestException('Error creating user');
     }
-    throw new BadRequestException('Error creating user');
+  }
+
+  @Post('singin')
+  async singIn(@Body() user: UserCredentialsDto) {
+    try {
+      return await this.authService.sinIn(user.email, user.password);
+    } catch (error) {
+      throw new BadRequestException('Error logging in user');
+    }
   }
 
   @Put(':id')

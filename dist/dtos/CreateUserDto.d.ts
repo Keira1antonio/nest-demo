@@ -6,4 +6,5 @@ export declare class CreateUserDto {
     phone: number;
     country: string;
     city: string;
+    createdAt: string;
 }

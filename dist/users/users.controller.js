@@ -14,10 +14,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
+const date_adder_interceptor_1 = require("../interceptors/date-adder.interceptor");
 const users_service_1 = require("./users.service");
 const CreateUserDto_1 = require("../dtos/CreateUserDto");
+const userCredentials_dto_1 = require("../dtos/userCredentials.dto");
+const auth_service_1 = require("./auth.service");
 const auth_guard_1 = require("../guards/auth.guard");
-const auth_service_1 = require("../auth/auth.service");
 let UsersController = class UsersController {
     usersService;
     userDbService;
@@ -38,27 +40,36 @@ let UsersController = class UsersController {
             throw new common_1.BadRequestException('Error getting users');
         }
     }
-    async getUserById(id) {
+    async getUserById(id, request) {
         try {
             const user = await this.usersService.getUserById(id);
             if (!user)
                 throw new common_1.NotFoundException('User not found');
             return user;
+            console.log(request.user);
         }
         catch (error) {
             throw new common_1.BadRequestException('Error getting user');
         }
     }
-    async createUser(createUserDto) {
+    async createUser(user, request) {
         try {
-            return await this.authService.singUp(createUserDto);
-            return { message: 'User created successfully' };
+            return await this.authService.singUp({
+                ...user,
+                createdAt: request.now,
+            });
         }
         catch (error) {
-            if (error.message.includes('User already exists'))
-                throw new common_1.BadRequestException('User already exists');
+            throw new common_1.BadRequestException('Error creating user');
         }
-        throw new common_1.BadRequestException('Error creating user');
+    }
+    async singIn(user) {
+        try {
+            return await this.authService.sinIn(user.email, user.password);
+        }
+        catch (error) {
+            throw new common_1.BadRequestException('Error logging in user');
+        }
     }
     async updateUser(id, userData) {
         try {
@@ -98,17 +109,27 @@ __decorate([
     (0, common_1.Get)(':id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "getUserById", null);
 __decorate([
-    (0, common_1.Post)('signup'),
+    (0, common_1.Post)('singup'),
+    (0, common_1.UseInterceptors)(date_adder_interceptor_1.DateAdderInterceptor),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateUserDto_1.CreateUserDto]),
+    __metadata("design:paramtypes", [CreateUserDto_1.CreateUserDto, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "createUser", null);
+__decorate([
+    (0, common_1.Post)('singin'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [userCredentials_dto_1.UserCredentialsDto]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "singIn", null);
 __decorate([
     (0, common_1.Put)(':id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),

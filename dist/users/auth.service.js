@@ -12,31 +12,50 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const usersDb_service_1 = require("./usersDb.service");
+const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
 let AuthService = class AuthService {
     usersDbService;
-    constructor(usersDbService) {
+    jwtService;
+    constructor(usersDbService, jwtService) {
         this.usersDbService = usersDbService;
+        this.jwtService = jwtService;
     }
     async singUp(user) {
-        const userExists = await this.usersDbService.getUserByEmail(user.email);
-        if (userExists) {
-            throw new common_1.BadRequestException('User already exists');
+        const dbUser = await this.usersDbService.getUserByEmail(user.email);
+        if (dbUser) {
+            throw new common_1.BadRequestException('Email already exists');
         }
         const hashedPassword = await bcrypt.hash(user.password, 10);
         if (!hashedPassword) {
-            throw new common_1.BadRequestException('Error hashing password');
+            throw new common_1.BadRequestException('password not hashed');
         }
-        const userEntity = this.usersDbService.createUser({
-            ...user,
-            password: hashedPassword,
-        });
-        await this.usersDbService.saveUser(userEntity);
+        const newUser = { ...user, password: hashedPassword };
+        await this.usersDbService.createUser(newUser);
+        return this.usersDbService.saveUser(newUser);
+    }
+    async sinIn(email, password) {
+        const dbUser = await this.usersDbService.getUserByEmail(email);
+        if (!dbUser) {
+            throw new common_1.BadRequestException('User not found');
+        }
+        const isPasswordValid = await bcrypt.compare(password, dbUser.password);
+        if (!isPasswordValid) {
+            throw new common_1.BadRequestException('Password Invalid');
+        }
+        const userPayload = {
+            sub: dbUser.id,
+            id: dbUser.id,
+            email: dbUser.email,
+        };
+        const token = this.jwtService.sign(userPayload);
+        return { success: 'User logged in successfully', token };
     }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [usersDb_service_1.UsersDbService])
+    __metadata("design:paramtypes", [usersDb_service_1.UsersDbService,
+        jwt_1.JwtService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

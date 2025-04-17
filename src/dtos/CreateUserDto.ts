@@ -6,7 +6,7 @@ import {
   MaxLength,
   Matches,
   IsNumber,
-  IsNumberString,
+  Validate,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -32,6 +32,12 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
+  @MinLength(8)
+  @MaxLength(15)
+  confirmPassword: string;
+
+  @IsNotEmpty()
+  @IsString()
   @MinLength(3)
   @MaxLength(80)
   address: string;
@@ -52,4 +58,5 @@ export class CreateUserDto {
   city: string;
 
   createdAt: string;
+  orders?: any[];
 }

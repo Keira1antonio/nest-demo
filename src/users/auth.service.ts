@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersDbService } from './usersDb.service';
+import { CreateUserDto } from '@/dtos/CreateUserDto';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -11,33 +12,44 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async singUp(user: User) {
-    const dbUser = await this.usersDbService.getUserByEmail(user.email);
+  async singUp(
+    userData: CreateUserDto,
+  ): Promise<Omit<User, 'password' | 'confirmPassword'>> {
+    if (userData.password !== userData.confirmPassword) {
+      throw new BadRequestException('Password does not match');
+    }
+    const dbUser = await this.usersDbService.getUserByEmail(userData.email);
 
     if (dbUser) {
       throw new BadRequestException('Email already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(user.password, 10);
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
     if (!hashedPassword) {
       throw new BadRequestException('password not hashed');
     }
     //this.usersDbService.createUser({ ...user, password: hashedPassword });
-    const newUser = { ...user, password: hashedPassword };
-    await this.usersDbService.createUser(newUser);
-    return this.usersDbService.saveUser(newUser);
+    const savedUser = await this.usersDbService.createAndSaveUser({
+      ...userData,
+      password: hashedPassword,
+      orders: userData.orders || [],
+    });
+
+    const { password, confirmPassword, ...userWithoutPassword } = savedUser;
+    return userWithoutPassword;
   }
 
   async sinIn(email: string, password: string) {
-    const dbUser = await this.usersDbService.getUserByEmail(email);
-    if (!dbUser) {
-      throw new BadRequestException('User not found');
+    if (!email || !password) {
+      throw new BadRequestException('Email and password are required');
     }
+    const dbUser = await this.usersDbService.getUserByEmail(email);
 
-    const isPasswordValid = await bcrypt.compare(password, dbUser.password);
+    const isPasswordValid =
+      dbUser && (await bcrypt.compare(password, dbUser.password));
 
     if (!isPasswordValid) {
-      throw new BadRequestException('Password Invalid');
+      throw new BadRequestException('Invalid credentials');
     }
 
     const userPayload = {

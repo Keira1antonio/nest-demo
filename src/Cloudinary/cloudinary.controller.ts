@@ -2,6 +2,7 @@ import {
   Controller,
   Post,
   Put,
+  UseGuards,
   UploadedFile,
   UseInterceptors,
   Param,
@@ -14,6 +15,7 @@ import { CloudinaryService } from './cloudinary.service';
 import { ProductsService } from '@/products/products.service';
 import { memoryStorage } from 'multer';
 import { MinSizeValidator } from '@/pipe/MinSizeValidator.pipe';
+import { AuthGuard } from '@/guards/auth.guard';
 
 @Controller('cloudinary')
 export class CloudinaryController {
@@ -46,6 +48,7 @@ export class CloudinaryController {
 
   @Put('uploadImage/:id')
   @UseInterceptors(FileInterceptor('file', { storage: memoryStorage() }))
+  @UseGuards(AuthGuard)
   async uploadProductImage(
     @Param('id', ParseUUIDPipe) id: string, // Valida el ID como UUID
     @UploadedFile() file: Express.Multer.File,

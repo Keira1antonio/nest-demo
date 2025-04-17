@@ -46,7 +46,6 @@ export class ProductsController {
   }
 
   @Post()
-  @UseGuards(AuthGuard)
   async createProduct(@Body() product: Product) {
     try {
       return await this.productsService.createProduct(product);
@@ -67,7 +66,6 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard)
   async deleteProduct(@Param('id', ParseUUIDPipe) id: string) {
     const deleted = await this.productsService.deleteProduct(id);
     if (!deleted) throw new NotFoundException('Product not found');

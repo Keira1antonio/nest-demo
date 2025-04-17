@@ -1,5 +1,6 @@
 import {
   Controller,
+  UseGuards,
   Post,
   Get,
   Param,
@@ -11,6 +12,7 @@ import { Order } from './Order.entity';
 import { User } from '../users/user.entity';
 import { CreateOrderDto } from '@/dtos/CreateOrderDto';
 import { ParseUUIDPipe } from '@nestjs/common';
+import { AuthGuard } from '@/guards/auth.guard';
 
 @Controller('orders')
 export class OrderController {
@@ -18,6 +20,7 @@ export class OrderController {
 
   // Crear orden
   @Post()
+  @UseGuards(AuthGuard)
   async createOrder(@Body() data: CreateOrderDto) {
     try {
       return await this.orderService.createOrder(data);
@@ -28,6 +31,7 @@ export class OrderController {
 
   // Obtener orden por id
   @Get(':id')
+  @UseGuards(AuthGuard)
   async getOrderById(@Param('id', ParseUUIDPipe) id: string): Promise<Order> {
     const order = await this.orderService.getOrderById(id);
     if (!order) throw new BadRequestException('Order not found');

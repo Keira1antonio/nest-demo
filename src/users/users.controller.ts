@@ -70,31 +70,6 @@ export class UsersController {
     }
   }
 
-  @Post('singup')
-  @UseInterceptors(DateAdderInterceptor)
-  async createUser(
-    @Body() user: CreateUserDto,
-    @Req() request: Request & { now: string },
-  ) {
-    try {
-      return await this.authService.singUp({
-        ...user,
-        createdAt: request.now,
-      } as any);
-    } catch (error) {
-      throw new BadRequestException('Error creating user');
-    }
-  }
-
-  @Post('singin')
-  async singIn(@Body() user: UserCredentialsDto) {
-    try {
-      return await this.authService.sinIn(user.email, user.password);
-    } catch (error) {
-      throw new BadRequestException('Error logging in user');
-    }
-  }
-
   @Put(':id')
   @UseGuards(AuthGuard)
   async updateUser(

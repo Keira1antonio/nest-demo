@@ -28,6 +28,7 @@ export class UsersService {
     const newUser = this.usersRepository.createUser({
       ...createUserDto,
       password: hashedPassword, // Sustituir la contraseña por la hasheada
+      isAdmin: false,
     });
 
     // Guardar y retornar el nuevo usuario

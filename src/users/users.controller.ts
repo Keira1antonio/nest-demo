@@ -26,6 +26,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 
 import { AuthGuard } from '@/guards/auth.guard';
+import { Role } from '@/roles.unum';
+import { Roles } from '@/decorator/roles.decorator';
+import { RolesGuard } from '@/guards/roles.guard';
 
 @Controller('users')
 export class UsersController {
@@ -38,7 +41,8 @@ export class UsersController {
   ) {}
 
   @Get()
-  @UseGuards(AuthGuard)
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   async getUsers(
     @Query('name') name?: string,
     @Query('page') page: number = 1,
@@ -54,6 +58,13 @@ export class UsersController {
     }
   }
 
+  @Get('admin')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  getAdmin() {
+    return 'Ruta protegida';
+  }
+
   @Get(':id')
   @UseGuards(AuthGuard)
   async getUserById(
@@ -63,7 +74,12 @@ export class UsersController {
     try {
       const user = await this.usersService.getUserById(id);
       if (!user) throw new NotFoundException('User not found');
-      return user;
+      if (user.data) {
+        const { isAdmin, ...userWithoutAdmin } = user.data;
+        return userWithoutAdmin;
+      } else {
+        throw new BadRequestException('Invalid user data');
+      }
       console.log(request.user);
     } catch (error) {
       throw new BadRequestException('Error getting user');

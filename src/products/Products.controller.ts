@@ -19,6 +19,9 @@ import { ProductsService } from './products.service';
 import { ParseUUIDPipe } from '@nestjs/common';
 import { Product } from './products.entity'; // Usamos Product desde el entity ya que es lo que parece correcto
 import { AuthGuard } from '@/guards/auth.guard';
+import { RolesGuard } from '@/guards/roles.guard';
+import { Roles } from '@/decorator/roles.decorator';
+import { Role } from '@/roles.unum';
 
 @Controller('products')
 export class ProductsController {
@@ -55,7 +58,8 @@ export class ProductsController {
   }
 
   @Put(':id')
-  @UseGuards(AuthGuard)
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   async updateProduct(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() product: Product,

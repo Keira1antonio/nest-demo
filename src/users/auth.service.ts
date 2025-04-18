@@ -4,6 +4,7 @@ import { CreateUserDto } from '@/dtos/CreateUserDto';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { Role } from '@/roles.unum';
 
 @Injectable()
 export class AuthService {
@@ -43,6 +44,7 @@ export class AuthService {
     if (!email || !password) {
       throw new BadRequestException('Email and password are required');
     }
+
     const dbUser = await this.usersDbService.getUserByEmail(email);
 
     const isPasswordValid =
@@ -56,6 +58,8 @@ export class AuthService {
       sub: dbUser.id,
       id: dbUser.id,
       email: dbUser.email,
+      //isAdmin: dbUser.isAdmin,
+      //roles: [dbUser.isAdmin ? Role.Admin : Role.User],
     };
 
     const token = this.jwtService.sign(userPayload);

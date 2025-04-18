@@ -1,6 +1,7 @@
 import {
   IsString,
   IsNotEmpty,
+  IsEmpty,
   IsEmail,
   MinLength,
   MaxLength,
@@ -56,6 +57,9 @@ export class CreateUserDto {
   @MinLength(5)
   @MaxLength(20)
   city: string;
+
+  @IsEmpty()
+  isAdmin: boolean;
 
   createdAt: string;
   orders?: any[];

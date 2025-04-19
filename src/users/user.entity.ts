@@ -31,6 +31,9 @@ export class User {
   @Column({ default: false })
   isAdmin: boolean;
 
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
   length: number;

@@ -29,6 +29,7 @@ export class UsersService {
       ...createUserDto,
       password: hashedPassword, // Sustituir la contraseña por la hasheada
       isAdmin: false,
+      createdAt: new Date(),
     });
 
     // Guardar y retornar el nuevo usuario

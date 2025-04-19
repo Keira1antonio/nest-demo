@@ -5,6 +5,7 @@ import {
   IsEmail,
   MinLength,
   MaxLength,
+  IsDate,
   Matches,
   IsNumber,
   Validate,
@@ -61,6 +62,7 @@ export class CreateUserDto {
   @IsEmpty()
   isAdmin: boolean;
 
-  createdAt: string;
+  @IsDate()
+  createdAt: Date;
   orders?: any[];
 }

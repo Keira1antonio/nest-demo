@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from '@/dtos/CreateUserDto';
 import { UserCredentialsDto } from '@/dtos/userCredentials.dto';
 import { DateAdderInterceptor } from '@/interceptors/date-adder.interceptor';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -24,13 +25,12 @@ export class AuthController {
     try {
       return await this.authService.singUp({
         ...user,
-        createdAt: req.now,
       } as any);
     } catch (error) {
       throw new BadRequestException('Error signing up');
     }
   }
-
+  @ApiBearerAuth()
   @Post('signin')
   async signin(@Body() user: UserCredentialsDto) {
     try {

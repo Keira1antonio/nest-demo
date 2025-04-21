@@ -18,6 +18,7 @@ const Order_Service_1 = require("./Order.Service");
 const CreateOrderDto_1 = require("../dtos/CreateOrderDto");
 const common_2 = require("@nestjs/common");
 const auth_guard_1 = require("../guards/auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let OrderController = class OrderController {
     orderService;
     constructor(orderService) {
@@ -69,6 +70,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OrderController.prototype, "getUserOrders", null);
 exports.OrderController = OrderController = __decorate([
+    (0, swagger_1.ApiTags)('Orders'),
     (0, common_1.Controller)('orders'),
     __metadata("design:paramtypes", [Order_Service_1.OrderService])
 ], OrderController);

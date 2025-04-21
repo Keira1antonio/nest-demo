@@ -22,7 +22,9 @@ import { AuthGuard } from '@/guards/auth.guard';
 import { RolesGuard } from '@/guards/roles.guard';
 import { Roles } from '@/decorator/roles.decorator';
 import { Role } from '@/roles.unum';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}

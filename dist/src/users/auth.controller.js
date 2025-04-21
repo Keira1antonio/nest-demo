@@ -13,11 +13,13 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const CreateUserDto_1 = require("../dtos/CreateUserDto");
 const userCredentials_dto_1 = require("../dtos/userCredentials.dto");
 const date_adder_interceptor_1 = require("../interceptors/date-adder.interceptor");
+const swagger_1 = require("@nestjs/swagger");
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
@@ -27,7 +29,6 @@ let AuthController = class AuthController {
         try {
             return await this.authService.singUp({
                 ...user,
-                createdAt: req.now,
             });
         }
         catch (error) {
@@ -47,6 +48,7 @@ exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('signup'),
     (0, common_1.UseInterceptors)(date_adder_interceptor_1.DateAdderInterceptor),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -54,7 +56,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signup", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Post)('signin'),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [userCredentials_dto_1.UserCredentialsDto]),

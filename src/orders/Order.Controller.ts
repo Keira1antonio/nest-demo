@@ -13,7 +13,9 @@ import { User } from '../users/user.entity';
 import { CreateOrderDto } from '@/dtos/CreateOrderDto';
 import { ParseUUIDPipe } from '@nestjs/common';
 import { AuthGuard } from '@/guards/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Orders')
 @Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}

@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CloudinaryController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const cloudinary_service_1 = require("./cloudinary.service");
@@ -20,6 +21,7 @@ const products_service_1 = require("../products/products.service");
 const multer_1 = require("multer");
 const MinSizeValidator_pipe_1 = require("../pipe/MinSizeValidator.pipe");
 const auth_guard_1 = require("../guards/auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let CloudinaryController = class CloudinaryController {
     cloudinaryService;
     productsService;
@@ -74,6 +76,7 @@ exports.CloudinaryController = CloudinaryController;
 __decorate([
     (0, common_1.Post)('upload'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image', { storage: (0, multer_1.memoryStorage)() })),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.UploadedFile)(MinSizeValidator_pipe_1.MinSizeValidator)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -83,6 +86,7 @@ __decorate([
     (0, common_1.Put)('uploadImage/:id'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', { storage: (0, multer_1.memoryStorage)() })),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
@@ -90,6 +94,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CloudinaryController.prototype, "uploadProductImage", null);
 exports.CloudinaryController = CloudinaryController = __decorate([
+    (0, swagger_1.ApiTags)('Cloudinary'),
     (0, common_1.Controller)('cloudinary'),
     __metadata("design:paramtypes", [cloudinary_service_1.CloudinaryService,
         products_service_1.ProductsService])

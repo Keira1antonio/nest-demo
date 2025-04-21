@@ -16,7 +16,9 @@ import { ProductsService } from '@/products/products.service';
 import { memoryStorage } from 'multer';
 import { MinSizeValidator } from '@/pipe/MinSizeValidator.pipe';
 import { AuthGuard } from '@/guards/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Cloudinary')
 @Controller('cloudinary')
 export class CloudinaryController {
   constructor(

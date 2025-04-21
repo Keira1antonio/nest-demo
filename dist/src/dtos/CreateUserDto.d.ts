@@ -8,6 +8,5 @@ export declare class CreateUserDto {
     country: string;
     city: string;
     isAdmin: boolean;
-    createdAt: Date;
     orders?: any[];
 }

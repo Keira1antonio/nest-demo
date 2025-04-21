@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { LoggerGlobal } from './middleware/Logger';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 //import { AuthGuard } from './guards/auth.guard';
 
 async function bootstrap() {
@@ -10,7 +11,15 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(LoggerGlobal);
   //app.useGlobalGuards(new AuthGuard());
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('Ecommerce API')
+    .setDescription('Ecommerce API description')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
 
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api', app, document);
   await app.listen(process.env.PORT ?? 3000);
 }
 

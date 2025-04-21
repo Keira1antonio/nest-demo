@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUserDto = void 0;
 const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
 class CreateUserDto {
     name;
     email;
@@ -21,7 +22,6 @@ class CreateUserDto {
     country;
     city;
     isAdmin;
-    createdAt;
     orders;
 }
 exports.CreateUserDto = CreateUserDto;
@@ -30,12 +30,20 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(3),
     (0, class_validator_1.MaxLength)(80),
+    (0, swagger_1.ApiProperty)({
+        description: 'The name of the user',
+        example: 'Van Rossen',
+    }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsEmail)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'The email of the user',
+        example: 'Van@Rossen.com',
+    }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "email", void 0);
 __decorate([
@@ -43,6 +51,10 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(8),
     (0, class_validator_1.MaxLength)(15),
+    (0, swagger_1.ApiProperty)({
+        description: 'The password of the user',
+        example: 'password',
+    }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
 __decorate([
@@ -50,6 +62,10 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(8),
     (0, class_validator_1.MaxLength)(15),
+    (0, swagger_1.ApiProperty)({
+        description: 'The confirm password of the user',
+        example: 'password',
+    }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "confirmPassword", void 0);
 __decorate([
@@ -57,11 +73,19 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(3),
     (0, class_validator_1.MaxLength)(80),
+    (0, swagger_1.ApiProperty)({
+        description: 'The address of the user',
+        example: 'Calle 123',
+    }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "address", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'The phone of the user',
+        example: '1234567890',
+    }),
     __metadata("design:type", Number)
 ], CreateUserDto.prototype, "phone", void 0);
 __decorate([
@@ -69,6 +93,10 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(5),
     (0, class_validator_1.MaxLength)(20),
+    (0, swagger_1.ApiProperty)({
+        description: 'The country of the user',
+        example: 'Netherlands',
+    }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "country", void 0);
 __decorate([
@@ -76,14 +104,27 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(5),
     (0, class_validator_1.MaxLength)(20),
+    (0, swagger_1.ApiProperty)({
+        description: 'The city of the user',
+        example: 'Amsterdam',
+    }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "city", void 0);
 __decorate([
     (0, class_validator_1.IsEmpty)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'Asignada por default al momento de crear el usuario, pero no debe ser incluida en el body',
+        default: false,
+    }),
     __metadata("design:type", Boolean)
 ], CreateUserDto.prototype, "isAdmin", void 0);
 __decorate([
-    (0, class_validator_1.IsDate)(),
-    __metadata("design:type", Date)
-], CreateUserDto.prototype, "createdAt", void 0);
+    (0, swagger_1.ApiProperty)({
+        description: 'The orders of the user',
+        type: [Object],
+        readOnly: true,
+        required: false,
+    }),
+    __metadata("design:type", Array)
+], CreateUserDto.prototype, "orders", void 0);
 //# sourceMappingURL=CreateUserDto.js.map

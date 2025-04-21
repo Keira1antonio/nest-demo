@@ -10,8 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const category_service_1 = require("./category.service");
+const swagger_1 = require("@nestjs/swagger");
 let CategoryController = class CategoryController {
     categoryService;
     constructor(categoryService) {
@@ -46,23 +48,27 @@ let CategoryController = class CategoryController {
 exports.CategoryController = CategoryController;
 __decorate([
     (0, common_1.Get)(),
+    openapi.ApiResponse({ status: 200, type: [require("./Category.entity").Category] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "getCategories", null);
 __decorate([
     (0, common_1.Get)('manual-seeder'),
+    openapi.ApiResponse({ status: 200, type: [require("./Category.entity").Category] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "preloadCategories", null);
 __decorate([
     (0, common_1.Get)('seeder'),
+    openapi.ApiResponse({ status: 200, type: [require("./Category.entity").Category] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "preloadCategoriesFromFile", null);
 exports.CategoryController = CategoryController = __decorate([
+    (0, swagger_1.ApiTags)('Categories'),
     (0, common_1.Controller)('categories'),
     __metadata("design:paramtypes", [category_service_1.CategoryService])
 ], CategoryController);

@@ -29,7 +29,9 @@ import { AuthGuard } from '@/guards/auth.guard';
 import { Role } from '@/roles.unum';
 import { Roles } from '@/decorator/roles.decorator';
 import { RolesGuard } from '@/guards/roles.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(
@@ -41,8 +43,8 @@ export class UsersController {
   ) {}
 
   @Get()
-  @Roles(Role.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
+  //@Roles(Role.Admin)
+  //@UseGuards(AuthGuard, RolesGuard)
   async getUsers(
     @Query('name') name?: string,
     @Query('page') page: number = 1,
@@ -57,7 +59,7 @@ export class UsersController {
       throw new BadRequestException('Error getting users');
     }
   }
-
+  @ApiBearerAuth()
   @Get('admin')
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)

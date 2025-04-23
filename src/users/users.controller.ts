@@ -14,6 +14,8 @@ import {
   ParseUUIDPipe,
   UseInterceptors,
   UploadedFile,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { DateAdderInterceptor } from '@/interceptors/date-adder.interceptor';
 import { UsersService } from './users.service';
@@ -43,8 +45,9 @@ export class UsersController {
   ) {}
 
   @Get()
-  //@Roles(Role.Admin)
+  @Roles(Role.Admin)
   //@UseGuards(AuthGuard, RolesGuard)
+  @HttpCode(200)
   async getUsers(
     @Query('name') name?: string,
     @Query('page') page: number = 1,
@@ -62,6 +65,7 @@ export class UsersController {
   @ApiBearerAuth()
   @Get('admin')
   @Roles(Role.Admin)
+  @HttpCode(200)
   @UseGuards(AuthGuard, RolesGuard)
   getAdmin() {
     return 'Ruta protegida';
@@ -69,6 +73,7 @@ export class UsersController {
 
   @Get(':id')
   @UseGuards(AuthGuard)
+  @HttpCode(200)
   async getUserById(
     @Param('id', ParseUUIDPipe) id: string,
     @Req() request: Request & { user: any },
@@ -90,6 +95,7 @@ export class UsersController {
 
   @Put(':id')
   @UseGuards(AuthGuard)
+  @HttpCode(200)
   async updateUser(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() userData: Partial<User>,
@@ -105,6 +111,7 @@ export class UsersController {
 
   @Delete(':id')
   @UseGuards(AuthGuard)
+  @HttpCode(200)
   async deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     try {
       const deleteUser = await this.usersService.deleteUser(id);

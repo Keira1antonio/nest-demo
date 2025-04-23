@@ -3,7 +3,7 @@ import { config as dotenvConfig } from 'dotenv';
 import { registerAs } from '@nestjs/config';
 
 // Cargar las variables de entorno
-dotenvConfig();
+dotenvConfig({ path: '.env' });
 
 console.log('DB_HOST:', process.env.DB_HOST);
 console.log('DB_PORT:', process.env.DB_PORT);

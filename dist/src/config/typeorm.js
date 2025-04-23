@@ -4,7 +4,7 @@ exports.connectionSource = void 0;
 const typeorm_1 = require("typeorm");
 const dotenv_1 = require("dotenv");
 const config_1 = require("@nestjs/config");
-(0, dotenv_1.config)();
+(0, dotenv_1.config)({ path: '.env' });
 console.log('DB_HOST:', process.env.DB_HOST);
 console.log('DB_PORT:', process.env.DB_PORT);
 console.log('DB_USERNAME:', process.env.DB_USERNAME);

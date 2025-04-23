@@ -48,6 +48,7 @@ let OrderController = class OrderController {
 exports.OrderController = OrderController;
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.HttpCode)(201),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -56,6 +57,7 @@ __decorate([
 ], OrderController.prototype, "createOrder", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, common_1.HttpCode)(200),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)('id', common_2.ParseUUIDPipe)),
     __metadata("design:type", Function),
@@ -64,6 +66,7 @@ __decorate([
 ], OrderController.prototype, "getOrderById", null);
 __decorate([
     (0, common_1.Get)('user/:userId'),
+    (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Param)('userId', common_2.ParseUUIDPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

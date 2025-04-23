@@ -47,6 +47,7 @@ let AuthController = class AuthController {
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('signup'),
+    (0, common_1.HttpCode)(201),
     (0, common_1.UseInterceptors)(date_adder_interceptor_1.DateAdderInterceptor),
     openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
@@ -58,7 +59,8 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Post)('signin'),
-    openapi.ApiResponse({ status: 201 }),
+    (0, common_1.HttpCode)(200),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [userCredentials_dto_1.UserCredentialsDto]),

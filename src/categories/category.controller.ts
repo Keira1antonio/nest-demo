@@ -4,6 +4,7 @@ import {
   Get,
   Post,
   BadRequestException,
+  HttpCode,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -15,6 +16,7 @@ export class CategoryController {
 
   // Obtener todas las categorías
   @Get()
+  @HttpCode(200)
   async getCategories() {
     try {
       return await this.categoryService.getAllCategories();
@@ -25,6 +27,7 @@ export class CategoryController {
 
   // Endpoint para precargar categorías manuales
   @Get('manual-seeder')
+  @HttpCode(200)
   async preloadCategories() {
     try {
       const names = ['smartphone', 'monitor', 'keyboard', 'mouse'];
@@ -36,6 +39,7 @@ export class CategoryController {
 
   // Endpoint para precargar categorías desde archivo
   @Get('seeder')
+  @HttpCode(200)
   async preloadCategoriesFromFile() {
     try {
       return await this.categoryService.preloadCategoriesFromFile();

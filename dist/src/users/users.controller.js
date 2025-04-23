@@ -89,6 +89,8 @@ let UsersController = class UsersController {
 exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Get)(),
+    (0, roles_decorator_1.Roles)(roles_unum_1.Role.Admin),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Query)('name')),
     __param(1, (0, common_1.Query)('page')),
@@ -101,6 +103,7 @@ __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Get)('admin'),
     (0, roles_decorator_1.Roles)(roles_unum_1.Role.Admin),
+    (0, common_1.HttpCode)(200),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     openapi.ApiResponse({ status: 200, type: String }),
     __metadata("design:type", Function),
@@ -110,6 +113,7 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Req)()),
@@ -120,6 +124,7 @@ __decorate([
 __decorate([
     (0, common_1.Put)(':id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
@@ -130,6 +135,7 @@ __decorate([
 __decorate([
     (0, common_1.Delete)(':id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __metadata("design:type", Function),

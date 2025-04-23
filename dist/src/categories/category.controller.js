@@ -48,6 +48,7 @@ let CategoryController = class CategoryController {
 exports.CategoryController = CategoryController;
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200, type: [require("./Category.entity").Category] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -55,6 +56,7 @@ __decorate([
 ], CategoryController.prototype, "getCategories", null);
 __decorate([
     (0, common_1.Get)('manual-seeder'),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200, type: [require("./Category.entity").Category] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -62,6 +64,7 @@ __decorate([
 ], CategoryController.prototype, "preloadCategories", null);
 __decorate([
     (0, common_1.Get)('seeder'),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200, type: [require("./Category.entity").Category] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

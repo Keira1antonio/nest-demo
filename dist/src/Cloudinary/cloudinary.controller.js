@@ -75,8 +75,9 @@ let CloudinaryController = class CloudinaryController {
 exports.CloudinaryController = CloudinaryController;
 __decorate([
     (0, common_1.Post)('upload'),
+    (0, common_1.HttpCode)(200),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image', { storage: (0, multer_1.memoryStorage)() })),
-    openapi.ApiResponse({ status: 201 }),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.UploadedFile)(MinSizeValidator_pipe_1.MinSizeValidator)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -84,6 +85,7 @@ __decorate([
 ], CloudinaryController.prototype, "getUserImage", null);
 __decorate([
     (0, common_1.Put)('uploadImage/:id'),
+    (0, common_1.HttpCode)(200),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', { storage: (0, multer_1.memoryStorage)() })),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     openapi.ApiResponse({ status: 200 }),

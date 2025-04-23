@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   BadRequestException,
+  HttpCode,
 } from '@nestjs/common';
 import { OrderService } from './Order.Service';
 import { Order } from './Order.entity';
@@ -22,6 +23,7 @@ export class OrderController {
 
   // Crear orden
   @Post()
+  @HttpCode(201)
   @UseGuards(AuthGuard)
   async createOrder(@Body() data: CreateOrderDto) {
     try {
@@ -33,6 +35,7 @@ export class OrderController {
 
   // Obtener orden por id
   @Get(':id')
+  @HttpCode(200)
   @UseGuards(AuthGuard)
   async getOrderById(@Param('id', ParseUUIDPipe) id: string): Promise<Order> {
     const order = await this.orderService.getOrderById(id);
@@ -41,6 +44,7 @@ export class OrderController {
   }
 
   @Get('user/:userId')
+  @HttpCode(200)
   async getUserOrders(
     @Param('userId', ParseUUIDPipe) userId: string,
   ): Promise<User> {

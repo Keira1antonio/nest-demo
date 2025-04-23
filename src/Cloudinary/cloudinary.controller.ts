@@ -9,6 +9,7 @@ import {
   NotFoundException,
   BadRequestException,
   ParseUUIDPipe,
+  HttpCode,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from './cloudinary.service';
@@ -27,6 +28,7 @@ export class CloudinaryController {
   ) {}
 
   @Post('upload')
+  @HttpCode(200)
   @UseInterceptors(FileInterceptor('image', { storage: memoryStorage() }))
   async getUserImage(
     @UploadedFile(MinSizeValidator) file: Express.Multer.File,
@@ -49,6 +51,7 @@ export class CloudinaryController {
   }
 
   @Put('uploadImage/:id')
+  @HttpCode(200)
   @UseInterceptors(FileInterceptor('file', { storage: memoryStorage() }))
   @UseGuards(AuthGuard)
   async uploadProductImage(

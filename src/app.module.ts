@@ -10,6 +10,8 @@ import { CloudinaryModule } from './Cloudinary/Cloudinary.module';
 import typeOrmConfig from './config/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 
+//console.log('Crypto test:', crypto.randomUUID());
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [typeOrmConfig] }),

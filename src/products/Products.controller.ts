@@ -14,6 +14,7 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   FileTypeValidator,
+  HttpCode,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ParseUUIDPipe } from '@nestjs/common';
@@ -30,6 +31,7 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
+  @HttpCode(200)
   async getProducts(
     @Query('page') page?: number,
     @Query('limit') limit?: number,
@@ -44,6 +46,7 @@ export class ProductsController {
   }
 
   @Get(':id')
+  @HttpCode(200)
   async getProductById(@Param('id', ParseUUIDPipe) id: string) {
     const product = await this.productsService.getProductsById(id);
     if (!product) throw new NotFoundException('Product not found');
@@ -51,6 +54,7 @@ export class ProductsController {
   }
 
   @Post()
+  @HttpCode(201)
   async createProduct(@Body() product: Product) {
     try {
       return await this.productsService.createProduct(product);
@@ -60,6 +64,7 @@ export class ProductsController {
   }
 
   @Put(':id')
+  @HttpCode(200)
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   async updateProduct(
@@ -72,6 +77,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
+  @HttpCode(200)
   async deleteProduct(@Param('id', ParseUUIDPipe) id: string) {
     const deleted = await this.productsService.deleteProduct(id);
     if (!deleted) throw new NotFoundException('Product not found');
@@ -79,6 +85,7 @@ export class ProductsController {
   }
 
   @Get('seeder')
+  @HttpCode(200)
   async preloadProducts() {
     try {
       return await this.productsService.preloadProducts();

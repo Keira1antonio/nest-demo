@@ -5,6 +5,7 @@ import {
   Req,
   UseInterceptors,
   BadRequestException,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '@/dtos/CreateUserDto';
@@ -17,6 +18,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
+  @HttpCode(201)
   @UseInterceptors(DateAdderInterceptor)
   async signup(
     @Body() user: CreateUserDto,
@@ -32,6 +34,7 @@ export class AuthController {
   }
   @ApiBearerAuth()
   @Post('signin')
+  @HttpCode(200)
   async signin(@Body() user: UserCredentialsDto) {
     try {
       return await this.authService.sinIn(user.email, user.password);

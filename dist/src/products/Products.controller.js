@@ -76,6 +76,7 @@ let ProductsController = class ProductsController {
 exports.ProductsController = ProductsController;
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200, type: [require("./products.entity").Product] }),
     __param(0, (0, common_1.Query)('page')),
     __param(1, (0, common_1.Query)('limit')),
@@ -85,6 +86,7 @@ __decorate([
 ], ProductsController.prototype, "getProducts", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200, type: require("./products.entity").Product }),
     __param(0, (0, common_1.Param)('id', common_2.ParseUUIDPipe)),
     __metadata("design:type", Function),
@@ -93,6 +95,7 @@ __decorate([
 ], ProductsController.prototype, "getProductById", null);
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.HttpCode)(201),
     openapi.ApiResponse({ status: 201, type: require("./products.entity").Product }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -101,6 +104,7 @@ __decorate([
 ], ProductsController.prototype, "createProduct", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    (0, common_1.HttpCode)(200),
     (0, roles_decorator_1.Roles)(roles_unum_1.Role.Admin),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     openapi.ApiResponse({ status: 200, type: require("./products.entity").Product }),
@@ -112,6 +116,7 @@ __decorate([
 ], ProductsController.prototype, "updateProduct", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', common_2.ParseUUIDPipe)),
     __metadata("design:type", Function),
@@ -120,6 +125,7 @@ __decorate([
 ], ProductsController.prototype, "deleteProduct", null);
 __decorate([
     (0, common_1.Get)('seeder'),
+    (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200, type: [require("./products.entity").Product] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

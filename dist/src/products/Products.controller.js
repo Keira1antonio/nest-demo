@@ -44,9 +44,9 @@ let ProductsController = class ProductsController {
             throw new common_1.NotFoundException('Product not found');
         return product;
     }
-    async createProduct(product) {
+    async createProduct(body) {
         try {
-            return await this.productsService.createProduct(product);
+            return await this.productsService.createProduct(body);
         }
         catch (error) {
             throw new common_1.BadRequestException('Error creating product');
@@ -99,7 +99,7 @@ __decorate([
     openapi.ApiResponse({ status: 201, type: require("./products.entity").Product }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [products_entity_1.Product]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProductsController.prototype, "createProduct", null);
 __decorate([

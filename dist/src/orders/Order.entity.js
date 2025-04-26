@@ -14,6 +14,7 @@ const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../users/user.entity");
 const OrderDetail_entity_1 = require("../entitys/OrderDetail.entity");
+const swagger_1 = require("@nestjs/swagger");
 let Order = class Order {
     id;
     date;
@@ -26,19 +27,35 @@ let Order = class Order {
 exports.Order = Order;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, swagger_1.ApiProperty)({
+        description: 'The unique identifier of the order',
+        example: '550e8400-e29b-41d4-a716-446655440000',
+    }),
     __metadata("design:type", String)
 ], Order.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }),
+    (0, swagger_1.ApiProperty)({
+        description: 'The date and time when the order was created',
+        example: '2025-04-25T15:30:00Z',
+    }),
     __metadata("design:type", Date)
 ], Order.prototype, "date", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.orders, { onDelete: 'CASCADE' }),
+    (0, swagger_1.ApiProperty)({
+        description: 'The user who created the order',
+        type: () => user_entity_1.User,
+    }),
     __metadata("design:type", user_entity_1.User)
 ], Order.prototype, "user", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => OrderDetail_entity_1.OrderDetail, (orderDetail) => orderDetail.order),
     (0, typeorm_1.JoinColumn)(),
+    (0, swagger_1.ApiProperty)({
+        description: 'The order details associated with the order',
+        type: () => OrderDetail_entity_1.OrderDetail,
+    }),
     __metadata("design:type", OrderDetail_entity_1.OrderDetail)
 ], Order.prototype, "orderDetail", void 0);
 exports.Order = Order = __decorate([

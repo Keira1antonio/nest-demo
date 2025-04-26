@@ -90,6 +90,7 @@ exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Get)(),
     (0, roles_decorator_1.Roles)(roles_unum_1.Role.Admin),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.HttpCode)(200),
     openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Query)('name')),

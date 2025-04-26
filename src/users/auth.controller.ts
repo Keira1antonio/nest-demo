@@ -13,6 +13,7 @@ import { UserCredentialsDto } from '@/dtos/userCredentials.dto';
 import { DateAdderInterceptor } from '@/interceptors/date-adder.interceptor';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

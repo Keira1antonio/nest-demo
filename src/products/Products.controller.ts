@@ -55,9 +55,9 @@ export class ProductsController {
 
   @Post()
   @HttpCode(201)
-  async createProduct(@Body() product: Product) {
+  async createProduct(@Body() body: any) {
     try {
-      return await this.productsService.createProduct(product);
+      return await this.productsService.createProduct(body);
     } catch (error) {
       throw new BadRequestException('Error creating product');
     }

@@ -46,7 +46,7 @@ export class UsersController {
 
   @Get()
   @Roles(Role.Admin)
-  //@UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard, RolesGuard)
   @HttpCode(200)
   async getUsers(
     @Query('name') name?: string,

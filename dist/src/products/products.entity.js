@@ -14,6 +14,7 @@ const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 const Category_entity_1 = require("../categories/Category.entity");
 const OrderDetail_entity_1 = require("../entitys/OrderDetail.entity");
+const swagger_1 = require("@nestjs/swagger");
 let Product = class Product {
     id;
     name;
@@ -30,35 +31,68 @@ let Product = class Product {
 exports.Product = Product;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, swagger_1.ApiProperty)({
+        description: 'The unique identifier of the product',
+        example: '550e8400-e29b-41d4-a716-446655440000',
+    }),
     __metadata("design:type", String)
 ], Product.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ length: 50 }),
+    (0, swagger_1.ApiProperty)({
+        description: 'The name of the product',
+        example: 'Laptop',
+    }),
     __metadata("design:type", String)
 ], Product.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.Column)('text', { default: 'Producto sin descripción' }),
+    (0, swagger_1.ApiProperty)({
+        description: 'The description of the product',
+        example: 'A high-performance laptop with a sleek design.',
+    }),
     __metadata("design:type", String)
 ], Product.prototype, "description", void 0);
 __decorate([
     (0, typeorm_1.Column)('decimal', { precision: 10, scale: 2 }),
+    (0, swagger_1.ApiProperty)({
+        description: 'The price of the product',
+        example: 999.99,
+    }),
     __metadata("design:type", Number)
 ], Product.prototype, "price", void 0);
 __decorate([
     (0, typeorm_1.Column)('int', { nullable: false }),
+    (0, swagger_1.ApiProperty)({
+        description: 'The stock quantity of the product',
+        example: 50,
+    }),
     __metadata("design:type", Number)
 ], Product.prototype, "stock", void 0);
 __decorate([
     (0, typeorm_1.Column)({ default: 'https://example.com/default-image.jpg' }),
+    (0, swagger_1.ApiProperty)({
+        description: 'The image URL of the product',
+        example: 'https://example.com/product-image.jpg',
+    }),
     __metadata("design:type", String)
 ], Product.prototype, "imgUrl", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Category_entity_1.Category, (category) => category.products),
+    (0, swagger_1.ApiProperty)({
+        description: 'The category to which the product belongs',
+        type: () => Category_entity_1.Category,
+    }),
     __metadata("design:type", Category_entity_1.Category)
 ], Product.prototype, "category", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => OrderDetail_entity_1.OrderDetail, (OrderDetail) => OrderDetail.products, {
         onDelete: 'CASCADE',
+    }),
+    (0, swagger_1.ApiProperty)({
+        description: 'The order details associated with the product',
+        type: () => OrderDetail_entity_1.OrderDetail,
+        isArray: true,
     }),
     __metadata("design:type", Array)
 ], Product.prototype, "orderDetails", void 0);

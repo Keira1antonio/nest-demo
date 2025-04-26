@@ -40,7 +40,7 @@ export class ProductsRepository {
     const existing = await this.productRepo.findOne({
       where: { name: product.name },
     });
-    if (existing) return existing;
+    // if (existing) return existing;
 
     const category =
       typeof product.category === 'string'

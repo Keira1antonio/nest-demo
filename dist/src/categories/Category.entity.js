@@ -13,6 +13,7 @@ exports.Category = void 0;
 const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 const products_entity_1 = require("../products/products.entity");
+const swagger_1 = require("@nestjs/swagger");
 let Category = class Category {
     id;
     name;
@@ -24,14 +25,26 @@ let Category = class Category {
 exports.Category = Category;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
+    (0, swagger_1.ApiProperty)({
+        description: 'The unique identifier of the category',
+        example: '550e8400-e29b-41d4-a716-446655440000',
+    }),
     __metadata("design:type", String)
 ], Category.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ length: 50 }),
+    (0, swagger_1.ApiProperty)({
+        description: 'The name of the category',
+        example: 'Electronics',
+    }),
     __metadata("design:type", String)
 ], Category.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => products_entity_1.Product, (product) => product.category),
+    (0, swagger_1.ApiProperty)({
+        description: 'List of products associated with the category',
+        type: () => [products_entity_1.Product],
+    }),
     __metadata("design:type", Array)
 ], Category.prototype, "products", void 0);
 exports.Category = Category = __decorate([
